@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-container {
+    display: flex;
+    height: 600px;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+
+.flight-icon {
+    height: 20px;
+    width: 20px;
+}
