@@ -18,8 +18,8 @@ const HomePage: React.FC = () => {
       });
   };
   useEffect(() => {
-    getFlights();
-  }, []);
+    setInterval(getFlights, 5000);
+  }, [getFlights]);
 
   return (
     <div>

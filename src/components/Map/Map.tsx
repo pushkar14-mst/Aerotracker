@@ -17,6 +17,10 @@ const Map: React.FC<AllFlights> = ({ flights }: AllFlights) => {
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
   console.log(flights);
+  const flightIcon = document.createElement("img");
+  flightIcon.className = "flight-icon";
+  flightIcon.src = plane;
+  console.log(flights);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -29,22 +33,31 @@ const Map: React.FC<AllFlights> = ({ flights }: AllFlights) => {
       center: [lng, lat],
       zoom: zoom,
     });
-    const flightIcon = document.createElement("img");
-    flightIcon.className = "flight-icon";
-    flightIcon.src = plane;
 
     const intialMarker = new mapboxgl.Marker({ element: flightIcon })
       .setLngLat([lng, lat])
       .addTo(map.current);
     markers.current.push(intialMarker);
+    //console.log(flights);
+  }, []);
+
+  useEffect(() => {
     flights.map((flight) => {
-      const newMarker = new mapboxgl.Marker()
+      const flightIcon2 = document.createElement("img");
+      flightIcon2.className = "flight-icon";
+      flightIcon2.src = plane;
+      const popup = new mapboxgl.Popup({ offset: 25 }).setText(`
+      ${flight.aircraft_icao} alt:${flight.alt} speed:${flight.speed}  
+      `);
+      const newMarker = new mapboxgl.Marker({ element: flightIcon2 })
         .setLngLat([flight.lng, flight.lat])
         .addTo(map.current!)
+        .setPopup(popup)
         .setRotation(flight.dir);
       markers.current.push(newMarker);
     });
-  }, []);
+  }, [flights]);
+
   return (
     <>
       <div className="container">
